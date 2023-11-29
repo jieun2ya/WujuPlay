@@ -1,0 +1,267 @@
+@font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+	font-family: 'SUITE-Regular';
+}
+
+.container-main{
+    margin: 0 auto;
+    width:100%
+}
+
+.map-div {
+    float: right;
+    width: 1100px;
+    height: 790px;
+    margin-right: 150px;
+}
+
+.meet-div {
+    float: left;
+    width: 463px;
+    margin-left: 150px;
+    height: 800px;
+    background-color: #ffffff;
+}
+
+.list-div{
+    margin: 0 auto;
+    width: 400px;
+    height: 730px;
+    border:1 solid #000000;
+    overflow: auto;
+    display: none;
+}
+
+
+
+#placesList li {list-style: none;}
+#placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;padding: 10px 0px;}
+#placesList .item span {display: block;margin-top:4px;}
+#placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+#placesList .item .info{padding:0px 0px 10px 40px;}
+#placesList .info .gray {color:#8a8a8a;}
+#placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
+#placesList .info .tel {color:#009900;}
+#placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
+#placesList .item .marker_1 {background-position: 0 -10px;}
+#placesList .item .marker_2 {background-position: 0 -56px;}
+#placesList .item .marker_3 {background-position: 0 -102px}
+#placesList .item .marker_4 {background-position: 0 -148px;}
+#placesList .item .marker_5 {background-position: 0 -194px;}
+#placesList .item .marker_6 {background-position: 0 -240px;}
+#placesList .item .marker_7 {background-position: 0 -286px;}
+#placesList .item .marker_8 {background-position: 0 -332px;}
+#placesList .item .marker_9 {background-position: 0 -378px;}
+#placesList .item .marker_10 {background-position: 0 -423px;}
+#placesList .item .marker_11 {background-position: 0 -470px;}
+#placesList .item .marker_12 {background-position: 0 -516px;}
+#placesList .item .marker_13 {background-position: 0 -562px;}
+#placesList .item .marker_14 {background-position: 0 -608px;}
+#placesList .item .marker_15 {background-position: 0 -654px;}
+
+ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 0px;
+    overflow-y:scroll;
+}
+
+#pagination {margin:10px auto;text-align: center;}
+#pagination a {display:inline-block;margin-right:10px;}
+#pagination .on {font-weight: bold; cursor: default;color:#777;}
+
+#meetAdd{
+    display:none;
+}
+
+.search-box {
+    margin: 0 auto;
+    width: 360px;
+    padding: 0 70px 0 25px;
+    background: #fff;
+    border: 1px solid #dfdfdf;
+    border-radius: 50px;
+    position: relative;
+	box-sizing: border-box;
+}
+.search-box input[type="text"] {
+    height: 44px;
+    line-height: 44px;
+    width: 100%;
+    font-size: 16px;
+    border: 0;
+	padding : 0;
+}
+
+#totSearch {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 44px;
+    height: 44px;
+    background: url(/image/searchBth.png) no-repeat center center;
+    cursor: pointer;
+	border: 0;
+}
+
+#weather-result {
+    text-align: center;
+}
+
+.btn-list1 {
+	margin-top: 10px;
+	height: 20px;
+	width: 30px;
+    background: url(/image/member.jpg) no-repeat center left;
+	border : 0px;
+	margin-left: 210px;
+}
+
+.meet-content{
+	width: 310px;
+    border: 0.5px solid #d1d1d1;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 20px;
+    line-height: 1.6;
+}
+input:focus {
+    border-color: initial; /* 또는 transparent 등으로 설정할 수 있음 */
+    box-shadow: none; /* 포커스 시 나타나는 그림자 제거 */
+    outline: none;
+}
+
+input {
+    background-color: #ffffff;
+}
+/* 표준 브라우저 */
+input::placeholder {
+    background-color: transparent;
+}
+
+input::-webkit-input-placeholder {
+    background-color: transparent;
+}
+
+#new5-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.common_btn_blue{
+	background: #0379d5;
+    border: 1px solid #0379d5;
+    display: inline-block;
+    min-width: 94%;
+    padding: 1px 13px;
+    margin: 0 2px;
+    font-size: 18px;
+    color: #fff;
+    vertical-align: middle;
+    border-radius: 10px;
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.common_btn_blue:hover{
+	background: #026bbb;
+    border: 1px solid #026bbb;
+}
+
+.meet_more {
+    text-align: center;
+	display: inline-block;
+    padding: 0 15px;
+    text-align: center;
+    background: #495f74;
+    border-radius: 17px;
+    width: 110px;
+}
+
+.plus{
+	background: url(/image/icon_plus.png) no-repeat right center;
+	display: inline-block;
+    line-height: 34px;
+    padding-right: 18px;
+    color: #fff;
+}
+
+.meet_more:hover{
+	background: #224361;
+	cursor:pointer;
+}
+
+.add{
+    text-align: center;
+}
+
+.div-meetmore{
+    display: flex;
+    align-items: center;
+}
+
+.div2{
+  margin-left: 18px;
+}
+
+.btn-list2 {
+    margin-top: 10px;
+    height: 20px;
+    width: 30px;
+    background: url(/image/member.jpg) no-repeat center left;
+    border: 0px;
+    margin-left: 0px;
+}
+
+.div-all{
+    border: 1px solid #dddddd;
+    padding: 10px;
+    border-radius: 6px;
+    margin: 15px 10px;
+}
+
+.meet_more:hover ~ .aaa {
+    border-color: #000000;
+}
+
+#meetAdd table {
+    margin: 0 auto;
+}
+
+#meetAdd table td {
+    padding: 10px;
+    width: 120px;
+}
+
+#meetAdd input[type="text"],
+#meetAdd input[type="datetime-local"],
+#meetAdd input[type="number"],
+#meetAdd textarea,
+#meetAdd select {
+    width: 100%; /* 입력 필드와 select를 테이블 셀에 꽉 채우도록 설정 */
+    border: 1px solid #dddddd;
+}
+#meetAdd input[type="submit"] {
+    display: block;
+    margin: 15px auto; /* 버튼을 가로 중앙 정렬 */
+}
+
+textarea {
+    height: 100px; /* 원하는 높이로 설정 */
+}
+
+.meet-content:hover{
+    border:1px solid #000000;
+    cursor:pointer;
+}

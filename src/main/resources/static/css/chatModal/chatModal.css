@@ -1,0 +1,53 @@
+ @font-face {
+     font-family: 'SUITE-Regular';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+     font-weight: 400;
+     font-style: normal;
+ }
+ * {
+   font-family: "SUITE-Regular";
+ }
+
+
+        #myModal {
+            overflow-y: hidden;
+        }
+        .modal-header {
+          cursor: move;
+        }
+        .modal-dialog{
+            margin-right: 0;
+            margin-left: 0;
+        }
+        .modal-open {
+        overflow: auto !important; // you will need important here to override
+        }
+
+        .modeless{
+            top:10%;
+            left:50%;
+            bottom:auto;
+            right:auto;
+            margin-left:-300px;
+        }
+
+        .btn{
+        width : 120px;
+        height : 120px;
+        border : 0;
+        background-color:transparent;
+        }
+
+        div.unreadCount{
+            position: fixed;
+            right: 20px;
+            bottom: 100px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: red;
+            color: white;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+        }

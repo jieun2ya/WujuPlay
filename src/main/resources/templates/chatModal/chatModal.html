@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!-- Button to Open the Modal -->
+<div th:if = "${memberId}">
+  <button type="button" data-backdrop="false" class="btn btn-primary btn" data-toggle="modal" data-target="#myModal" style="position: fixed; right: 20px; bottom: 20px;">
+    <img src="/image/chat.png" alt="채팅" style="width : 100px; height : 100px;">
+  </button>
+  <div class = "unreadCount" id = "unreadCount" style="text-align: center;"></div>
+</div>
+
+<!------- modal ------->
+<div id="myModal" class="modal fade modeless">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">채팅하기</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="checkCurrPage()"><span aria-hidden="true">&times;</span></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <iframe id = "myFrame" width="100%" height="400" src="" style = "border:0" allowfullscreen></iframe>
+      </div>
+      <!--                <div class="modal-footer">-->
+      <!--                </div>-->
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+</body>
+</html>

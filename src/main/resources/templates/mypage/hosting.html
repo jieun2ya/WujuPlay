@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hosting</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+    <!-- Ajax & JQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" th:href = "@{/css/chatModal/chatModal.css}">
+    <link rel="stylesheet" th:href = "@{/css/notification/notification.css}">
+    <link rel="stylesheet" th:href = "@{/css/mypage/hosting.css}">
+</head>
+<body>
+<div th:replace="~{layout/header}"></div>
+<div th:replace="~{layout/side}"></div>
+<main>
+    <input type="hidden" th:value = "${memberId}" id = "memberId">
+    <div class = "left">
+        <div class = "boxInfo">내가 모집중인 모임</div>
+        <div class="tableHeader">
+            <div class="item">모임이름</div>
+            <div class="item">모임정보</div>
+            <div class="item">현재인원</div>
+        </div>
+        <div class = "hostingMeets" th:each="meet : ${hosting}" >
+            <input type = "hidden" id = "meetId" name = "meetId" th:value = "${meet.getMeetId()}"/>
+            <div class = "rowLeft" th:id = "${meet.meetId}" onclick="listRequests(this.getAttribute('id')); info(this.getAttribute('id')); getMergeables(this.getAttribute('id'));" style = "cursor: pointer;">
+                <div class = "item" th:text="${meet.meetName}"/>
+                <div class = "item" th:text="${#strings.substring(meet.meetDate, 0, 16)}"/>
+                <div class="item" style="justify-content: center;">
+                    <div class = "numWrapper" style="display: flex; flex-direction: row;text-align: center;	justify-content: center;">
+                        <div class = "number" th:text="${meet.currNumber}"/>
+                        <div class = "number">/</div>
+                        <div class = "number" th:text="${meet.maxNumber}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class = "right">
+        <div class = "rightColumn">
+            <div class = "boxInfo"> 내 모임 정보 </div>
+            <div class = "myMeetInfo" id = "myMeetInfo"></div>
+
+            <div class = "boxInfo"> 들어온 조인 신청 목록</div>
+            <div class = "mergeRequests">
+                <div class="tableHeader" style="padding-right: 23%;">
+                    <div class="item">모임이름</div>
+                    <div class="item">모임정보</div>
+                    <div class="item">현재인원</div>
+                </div>
+
+                <div id="mergeTable"></div>
+            </div>
+
+            <div class = "boxInfo"> 조인 가능한 모임 목록</div>
+            <div class = "mergeable">
+                <div class="tableHeader" style="padding-right: 23%;">
+                    <div class="item">모임이름</div>
+                    <div class="item">모임정보</div>
+                    <div class="item">현재인원</div>
+                </div>
+
+                <div id="mergeableMeets"></div>
+            </div>
+        </div>
+    <div th:replace="~{chatModal/chatModal}"></div>
+    </div>
+
+</main>
+
+<footer></footer>
+</body>
+<script type="text/javascript" th:src = "@{/js/notification/notification.js}"></script>
+<script type="text/javascript" th:src = "@{/js/chatModal/chatModal.js}"></script>
+<script type="text/javascript" th:src = "@{/js/mypage/hosting.js}"></script>
+</html>

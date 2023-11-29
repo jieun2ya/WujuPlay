@@ -1,0 +1,150 @@
+@font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+	font-family: 'SUITE-Regular';
+}
+
+.btn-list1 {
+	margin-top: 10px;
+	height: 20px;
+	width: 30px;
+    background: url(/image/member.jpg) no-repeat center left;
+	border : 0px;
+	margin-left: 214px;
+}
+
+.srv_rt > ul > li {
+    margin-top: 20px;
+    position: relative;
+    padding-left: 90px;
+    font-size: 14px;
+    color: #8a8a8a;
+    font-weight: 500;
+    line-height: 21px;
+}
+
+.srv_rt > div.tits {
+    padding: 20px 0 20px 120px;
+    position: relative;
+    background: url(/css/user.png) repeat-x left bottom;
+}
+
+.srv_rt {
+    margin:0 auto;
+    width:800px;
+	text-align: center; /* 수평 중앙 정렬 */
+	padding: 40px;
+	background-color: #f0f0f0;
+    border: 0px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    margin: 20px;
+	border-radius: 10px;
+}
+
+.div_dot{
+    padding: 20px 0 20px 120px;
+    position: relative;
+    background: url(/css/sl.png) repeat-x left bottom;
+    display: flex;
+}
+
+.div_span {
+    display: block;
+    vertical-align: middle;
+    width: 100px;
+    line-height: 28px;
+    background: #3b5997;
+    font-size: 18px;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    flex: 1;
+    margin-bottom:10px;
+}
+
+.div_p {
+    max-height: 160px;
+    overflow: hidden;
+    word-break: break-all;
+    font-size: 35px;
+    color: #367cb4;
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 40px;
+    flex: 1;
+    margin-bottom:25px;
+}
+
+.page-title h3::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 17px;
+    background-color: #e9ebff;
+    z-index: 1;
+}
+
+
+.parent-container {
+    display: flex;
+}
+
+.child-container {
+    flex: 1; /* 각 자식 컨테이너가 동일한 너비를 가지도록 설정 */
+    font-size:22px;
+}
+
+.child-container2{
+    flex: 1;
+    text-align: left;
+}
+
+table{
+    margin: 0 auto;
+}
+.mm-info{
+    word-break: break-all;
+    font-size: 25px;
+    color: #367cb4;
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 40px;
+}
+
+.common_btn_blue{
+	background: #0379d5;
+    border: 1px solid #0379d5;
+    display: inline-block;
+    min-width: 19%;
+    padding: 5px 13px;
+    margin: 0 2px;
+    font-size: 18px;
+    color: #fff;
+    vertical-align: middle;
+    border-radius: 10px;
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.common_btn_blue:hover{
+	background: #026bbb;
+    border: 1px solid #026bbb;
+}
+
+.align-center1{
+margin:0 auto;
+width:800px;
+}
+
+.align-center2{
+margin:0 auto;
+width:800px;
+}

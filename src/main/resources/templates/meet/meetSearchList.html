@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meet Search Results</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/meet/meetSearchList.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href = "@{/css/chatModal/chatModal.css}">
+    <link rel="stylesheet" th:href = "@{/css/notification/notification.css}">
+    <link rel="stylesheet" href="/css/meet/meetList.css" />
+
+</head>
+<body>
+<div th:replace="~{layout/header}"></div><input type = "hidden" id="memberId" th:value="${memberId}" />
+
+
+<div style="margin-bottom:20px;display: flex;justify-content: center;">
+<!-- 검색 -->
+<form id="meetSearchForm" method="post" th:action="@{/meet/search}" th:object="${searchDTO}">
+    <div class="search_box_wrap search_box_bottom_new">
+        <div id="cafeSearchInputWrap" class="search_box_elem" style="display: block;">
+            <select class="widthfix inp fl" id="searchDate" name="searchPeriod" onchange="handleSearchDateChange()">
+                <option value="all">전체기간</option>
+                <option value="aWeek">1주</option>
+                <option value="aMonth">1개월</option>
+                <option value="custom">직접입력</option>
+            </select>
+            <select id="searchType" name="searchType" onchange="handleSearchTypeChange()">
+                <option value="1">모임명</option>
+                <option value="2">스포츠</option>
+            </select>
+            <select id="sportsSelect" name="sportsId" style="display: none;">
+                <option th:each="sport : ${sportsData}" th:value="${sport.sportsId}" th:text="${sport.name}"></option>
+            </select>
+            <div id="serch-box" class="suggest" style="margin: 13px 0px;">
+                <input type="text" autocomplete="off" class="inp query tf_keyword" id="q1" name="keyword" value="">
+                <input type="submit" value="검색" onclick="searchMeetList()">
+            </div>
+        </div>
+
+        <div id="date" style="display: none; flex-direction: column;">
+            <input type="date" id="startDate" name="startDate" style="margin-bottom: 5px;">
+            <input type="date" id="endDate" name="endDate" value="">
+        </div>
+    </div>
+
+    <script>
+        function handleSearchDateChange() {
+            var searchDate = document.getElementById("searchDate");
+            var dateDiv = document.getElementById("date");
+
+            if (searchDate.value === "custom") {
+                dateDiv.removeAttribute("style");
+            } else {
+                dateDiv.style.display = "none";
+            }
+        }
+
+        function handleSearchTypeChange() {
+            var searchType = document.getElementById("searchType");
+            var sportsSelect = document.getElementById("sportsSelect");
+            var serchBox = document.getElementById("serch-box");
+
+            if (searchType.value === "2") {
+                sportsSelect.removeAttribute("style");
+                serchBox.querySelector('input').disabled = true;
+            } else {
+                sportsSelect.style.display = "none";
+                serchBox.querySelector('input').disabled = false;
+            }
+        }
+    </script>
+</form>
+</div>
+
+<div th:each="meet : ${list}" class="align-center1">
+    <div class="align-center2 meet-content" th:onclick="|location.href='/meet/meetDetail/${meet.meetId}'|">
+        <div><span th:text="${meet.meetName}"></span> | <span th:text="${meet.sportsId.name}"></span></div>
+        <div th:text="${#dates.format(meet.meetDate, 'yyyy년 MM월 dd일(E) a hh:mm')}"></div>
+        <div><button class="btn-list1"></button><span th:text="${meet.currNumber}"></span>/<span th:text="${meet.maxNumber}"></span></div>
+    </div>
+</div>
+
+
+    <div th:replace="~{chatModal/chatModal}"></div>
+</body>
+<script type="text/javascript" th:src = "@{/js/notification/notification.js}"></script>
+<script type="text/javascript" th:src = "@{/js/chatModal/chatModal.js}"></script>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>my info</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!--    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>-->
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href = "@{/css/chatModal/chatModal.css}">
+    <link rel="stylesheet" th:href = "@{/css/notification/notification.css}">
+    <link rel="stylesheet" th:href = "@{/css/mypage/myinfo.css}">
+</head>
+
+<body>
+<input type="hidden" th:value = "${memberId}" id = "memberId">
+    <div th:replace="~{layout/header}"></div>
+    <div th:replace="~{layout/side}"></div>
+<main>
+    <h1>내 정보</h1>
+    <form method="post" action="/mypage/myinfo">
+        <div class="info-section">
+            <label for="platformType">로그인 플랫폼:&nbsp;</label>
+            <div th:text ="${member.platformType}"></div>
+            <input type="hidden" id="platformType" class="input" th:field="${member.platformType}">
+        </div>
+
+        <div class="info-section">
+            <label for="accountEmail">이메일:&nbsp;</label>
+            <div th:text ="${member.accountEmail}"></div>
+            <input type="hidden" id="accountEmail" class="input" th:field="${member.accountEmail}">
+        </div>
+
+        <div class="info-section">
+            <label for="name">이름:&nbsp;</label>
+            <input type="text" id="name" class="input" th:field="*{member.name}">
+        </div>
+
+        <div class="info-section">
+            <label for="profileNickname">닉네임:&nbsp;</label>
+            <input type="text" id="profileNickname" class="input" th:field="*{member.profileNickname}">
+        </div>
+
+        <div class="info-section">
+            <label for="gender">성별:&nbsp;</label>
+            <input type="text" id="gender" class="input" th:field="*{member.gender}">
+        </div>
+
+        <div class="info-section">
+            <label for="address">주소:&nbsp;</label>
+            <input type="text" id="address" class="input" th:field="*{member.address}">
+        </div>
+
+        <div>
+            <a class="register-link" th:if="${memberDetail == null}" href="/auth/signupDetail">상세 정보 등록하기</a>
+        </div>
+
+        <div class="info-section" th:if="${memberDetail != null}">
+            <label for="phone">전화번호:&nbsp;</label>
+            <input type="text" id="phone" class="input" th:field="*{memberDetail.phone}">
+        </div>
+
+        <div class="info-section" th:if="${memberDetail != null}">
+            <label for="birthday">생일:&nbsp;</label>
+            <div th:text = "${#strings.substring(memberDetail.birthday, 0, 11)}"></div>
+            <input type="hidden" id="birthday" class="input" th:field="${memberDetail.birthday}">
+        </div>
+
+        <div class="info-section" th:if="${memberDetail != null}">
+            <label for="mbti">MBTI:&nbsp;</label>
+            <input type="text" id="mbti" class="input" th:field="*{memberDetail.mbti}">
+        </div>
+
+        <div class="info-section" th:if="${memberDetail != null}">
+            <label for="sportsCareer">운동경험:&nbsp;</label>
+            <input type="text" id="sportsCareer" class="input" th:field="*{memberDetail.sportsCareer}">
+        </div>
+
+        <div class="info-section" th:if="${memberDetail != null}">
+            <label for="playNumber">모임 참여 횟수:&nbsp;</label>
+            <div th:text = "${memberDetail.openNumber}"></div>
+            <input type="hidden" id="openNumber" class="input" th:field="${memberDetail.openNumber}">
+        </div>
+
+        <div class="info-section" th:if="${memberDetail != null}">
+            <label for="openNumber">모임 연 횟수:&nbsp;</label>
+            <div th:text = "${memberDetail.playNumber}"></div>
+            <input type="hidden" id="playNumber" class="input" th:field="${memberDetail.playNumber}">
+        </div>
+
+        <div class="info-section" th:if="${memberDetail != null}">
+            <label for="interestSports">좋아하는 종목:&nbsp;</label>
+            <input type="text" id="interestSports" class="input" th:field="*{memberDetail.interestSports}">
+        </div>
+
+        <button type="submit" class="submitBtn">수정하기</button>
+    </form>
+</main>
+<div th:replace="~{chatModal/chatModal}"></div>
+
+</body>
+
+<script type="text/javascript" th:src = "@{/js/notification/notification.js}"></script>
+<script type="text/javascript" th:src = "@{/js/chatModal/chatModal.js}"></script>
+</html>

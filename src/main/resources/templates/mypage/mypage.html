@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset='utf-8'/>
+    <link href='/css/mypage/main.css' rel='stylesheet'/>
+    <script type="text/javascript" src='/js/fullCalendar/main.js'></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href = "@{/css/chatModal/chatModal.css}">
+    <link rel="stylesheet" th:href = "@{/css/notification/notification.css}">
+</head>
+<body>
+<input type="hidden" th:value = "${memberId}" id = "memberId">
+<div th:replace="~{layout/header}"></div>
+<div th:replace="~{layout/side}"></div>
+<div class="container">
+    <div class="mypage-div">
+        <div class="left-div">
+            <div id="meetSelectDiv">
+                <select id="meetSelect" onchange="filterMeets()">
+                    <option value="all">내 전체 모임</option>
+                    <option value="enrolled">내가 참여 중인 모임</option>
+                    <option value="hosting">내가 연 모임</option>
+                </select>
+            </div>
+
+            <div class="flex-container">
+                <div th:each="myMeet : ${myMeet}" class="flex-item">
+                    <a th:href="@{/meet/meetDetail/__${myMeet.meetId}__}">
+                        <span th:text="${#strings.substring(myMeet.meetDate, 0, #strings.length(myMeet.meetDate)-5)}">모임날짜</span>
+                        <span th:text="${myMeet.meetName}">모임명</span>
+                        <span th:text="${myMeet.sportsId.name}">운동 종목</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+        <div class="right-div">
+            <div id='calendar'></div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var myMeet = [[${myMeet}]];
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: myMeet.map(function(meet) {
+                return {
+                    title: meet.meetName,
+                    start: meet.meetDate,
+                };
+            }),
+        });
+        calendar.render();
+
+        // Select box의 현재 값을 URL에 따라 설정합니다.
+        var path = window.location.pathname;
+        var selectBox = document.getElementById('meetSelect');
+
+        if (path.includes('myenrolled')) {
+            selectBox.value = 'enrolled';
+        } else if (path.includes('myhosting')) {
+            selectBox.value = 'hosting';
+        } else {
+            selectBox.value = 'all';
+        }
+    });
+
+    function filterMeets() {
+        var selectBox = document.getElementById('meetSelect');
+        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+
+        if (selectedValue === 'all') {
+            window.location.href = '/mypage';
+        } else if (selectedValue === 'enrolled') {
+            window.location.href = '/mypage/myenrolled';
+        } else if (selectedValue === 'hosting') {
+            window.location.href = '/mypage/myhosting';
+        }
+    }
+    /*]]>*/
+</script>
+<div th:replace="~{chatModal/chatModal}"></div>
+</body>
+
+<script type="text/javascript" th:src = "@{/js/notification/notification.js}"></script>
+<script type="text/javascript" th:src = "@{/js/chatModal/chatModal.js}"></script>
+
+</html>

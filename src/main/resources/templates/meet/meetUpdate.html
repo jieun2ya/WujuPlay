@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" pageEncoding="UTF-8"/>
+    <title>meet main</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href = "@{/css/chatModal/chatModal.css}">
+    <link rel="stylesheet" th:href = "@{/css/notification/notification.css}">
+
+</head>
+
+<body>
+
+<input type = "hidden" id="memberId" th:value="${memberId}"/>
+
+<div th:replace="~{layout/header}"></div>
+
+                <div id="meetAdd" style="width:800px;margin:0 auto">
+                    <form th:action="@{/meet/meetUpdate}" method="post">
+                        <input type="hidden" th:field="*{meetEntity.meetId}"/>
+                        <table>
+                            <tr>
+                                <td>모임 이름</td>
+                                <td>
+                                    <input type="text" th:field="*{meetEntity.meetName}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>모임 소개</td>
+                                <td>
+                                    <input type="text" th:field="*{meetEntity.meetInfo}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>스포츠</label>
+                                </td>
+                                <td>
+                                    <select id="sportsSelect" th:field="*{meetEntity.sportsId}">
+                                        <option th:each="sport : ${sportsData}" th:value="${sport.sportsId}" th:text="${sport.name}" th:selected="${sport.sportsId == meetEntity.sportsId}"></option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>모임날짜</td>
+                                <td>
+                                    <input type="datetime-local" th:field="*{meetEntity.meetDate}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>모집인원</td>
+                                <td>
+                                    <input type="text" th:field="*{meetEntity.maxNumber}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>모임합치기</td>
+                                <td>
+                                    <label><input type="radio" th:field="*{meetEntity.mergeYn}" value="1" th:checked="${meetEntity.mergeYn == 1}" /> 좋아요 </label>
+                                    <label><input type="radio" th:field="*{meetEntity.mergeYn}" value="0" th:checked="${meetEntity.mergeYn == 0}" /> 싫어요 </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="submit" value="모임 수정하기"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+            </div>
+<div th:replace="~{chatModal/chatModal}"></div>
+
+</body>
+<script type="text/javascript" th:src = "@{/js/notification/notification.js}"></script>
+<script type="text/javascript" th:src = "@{/js/chatModal/chatModal.js}"></script>
+</html>

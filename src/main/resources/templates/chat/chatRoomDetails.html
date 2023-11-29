@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+  <!-- Ajax & JQuery-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" th:href = "@{/css/chat/chatRoomDetails.css}">
+</head>
+
+<body>
+  <input id = "chatId" type = "hidden" th:value="${chatRoom.chatRoomId}">
+  <th:block th:fragment="content">
+    <div class = "container">
+      <div style = "height: 6%;">
+        <a th:href="@{/chat/mychat/}" th:onclick="parent.leaveChat([[${chatRoom.chatRoomId}]])">목록으로 돌아가기</a>
+      </div>
+      <div id="msgArea" style = "height: 80%; width: 100%; overflow: auto;">
+        <th:block th:each="prevMsg : ${chatLog}">
+          <div th:if = "${prevMsg.sender.memberId == member.memberId}" >
+            <div class = "myMsgRow">
+              <div class = "myMsg" th:text="${prevMsg.content}"></div>
+            </div>
+          </div>
+          <div th:if = "${prevMsg.sender.memberId != member.memberId}" >
+            <div class = "othersMsgRow">
+              <p style="margin-bottom: -4px;" th:text = "${prevMsg.sender.profileNickname}"></p>
+              <div class = "othersMsg" th:text="${prevMsg.content}"></div>
+            </div>
+          </div>
+        </th:block>
+      </div>
+      <div class="typing">
+        <div class="text-div">
+          <input type="text" id="msg" class="form-control">
+        </div>
+        <div class="btn-div">
+          <button class="button" type="button" id="button-send">전송</button>
+        </div>
+      </div>
+    </div>
+  </th:block>
+
+<script th:inline="javascript">
+
+  var roomId = [[${chatRoom.chatRoomId}]];
+  $(window).on("load", enterChat(roomId));
+  $(window).on("load", parent.getUnreadCounts());
+
+
+$(document).ready(function(){
+   var roomId = [[${chatRoom.chatRoomId}]];
+   var user = [[${member}]];
+   var roomName = [[${chatRoom.name}]];
+   console.log(roomName + "- " + msg.value);
+
+   var sockJs = new SockJS("/stomp-conn");
+   //1. SockJS를 내부에 들고있는 stomp를 내어줌
+   var stomp = Stomp.over(sockJs);
+
+   //2. connection이 맺어지면 실행
+   stomp.connect({}, function (){
+      console.log("STOMP Connection")
+
+        let msgArea = document.getElementById("msgArea");
+        msgArea.scrollTop = msgArea.scrollHeight;
+
+      //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+      stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
+           var message = JSON.parse(chat.body);
+
+          var sender = message.sender;
+          var str = '';
+
+          if(user.memberId === sender.memberId){
+              str += "<div class = 'myMsgRow'>";
+              str += "<div class = 'myMsg'>";
+              str += message.content;
+              str += "</div></div>";
+              $("#msgArea").append(str);
+          }
+          else{
+              str += "<div class = 'othersMsgRow'>";
+              str += "<p style='margin-bottom: -4px;'>" + sender.profileNickname + "</p>";
+              str += "<div class = 'othersMsg'>";
+              str +=  message.content;
+              str += "</div></div>";
+              $("#msgArea").append(str);
+          }
+          msgArea.scrollTop = msgArea.scrollHeight;
+
+         // $("#msgArea").append(str);
+      });
+
+      //3. send(path, header, message)로 메세지를 보낼 수 있음
+      $("#button-send").on("click", function(e){
+        var msg = document.getElementById("msg");
+        if (msg.value){
+           console.log("message:" + msg.value);
+           stomp.send('/pub/message/send', {}, JSON.stringify({chatRoomId: [[${chatRoom.chatRoomId}]], content: msg.value, sender: user}));
+           msg.value = '';
+           }
+       });
+
+      $("input").keydown(function(key){
+          var msg = document.getElementById("msg");
+          if (key.keyCode == 13 && msg.value) {
+           console.log("message:" + msg.value);
+           stomp.send('/pub/message/send', {}, JSON.stringify({chatRoomId: [[${chatRoom.chatRoomId}]], content: msg.value, sender: user}));
+           msg.value = '';
+           }
+      });
+   });
+});
+
+function enterChat(chatRoomId){
+   var params = {chatRoomId : chatRoomId};
+  $.ajax({
+    url: "/message/enterChatRoom",
+    type: "GET",
+    contentType: "application/json;charset=UTF-8",
+    data : params,
+    success : function (data) {},
+    error : function(XMLHttpRequest, textStatus, errorThrown){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+            alert("통신 실패.")
+        }
+    });
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+
+<div class = "myMeetInfo" id = "myMeetInfo">
+  <div th:if = "${info != null}" class = "meetInfo" th:text="|모임 이름: ${info.meetName}|"/>
+  <div th:if = "${info != null}" class = "meetInfo" th:text="|모임 정보: ${info.meetInfo}|"/>
+  <div th:if = "${info != null}" class = "meetInfo" th:text="|모임 일시: ${#strings.substring(info.meetDate, 0, 16)}"/>
+  <div th:if = "${info != null}" class = "meetInfo" th:text="|방장: ${info.leader.profileNickname}|"/>
+  <div th:if = "${info != null}" class = "meetInfo" th:text="|장소: ${info.locationId.placeName}|"/>
+</div>
+
+</html>

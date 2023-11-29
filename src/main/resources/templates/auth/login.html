@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+     <link rel="stylesheet" type="text/css" href="/css/auth/styles.css">
+
+</head>
+<body>
+<div th:replace="~{layout/header}"></div>
+    <div>
+        <h1>로그인</h1>
+        <form action="/auth/login" method="POST">
+            <label for="accountEmail">이메일:</label>
+            <input type="text" id="accountEmail" name="username" required><br><br>
+
+            <label for="password">비밀번호:</label>
+            <input type="password" id="password"  name="password" required><br><br>
+
+            <input class="btn" type="submit" value="로그인">
+            <a href="/oauth2/authorization/kakao">
+                <img src="/image/kakao_login_button.png" style= "width: calc(100% - 18px); height:45px">
+            </a>
+        </form>
+        <a href="/auth/signup">회원가입을 아직 하지 않으셨나요?</a>
+    </div>
+</body>
+</html>

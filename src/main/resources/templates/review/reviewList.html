@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>reviewList.html</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!--    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>-->
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href = "@{/css/chatModal/chatModal.css}">
+    <link rel="stylesheet" th:href = "@{/css/notification/notification.css}">
+    <link rel="stylesheet" href="/css/review/reviewList.css" />
+</head>
+
+<body>
+<input type="hidden" th:value = "${memberId}" id = "memberId">
+<div th:replace="~{layout/header}"></div>
+
+
+<div style="margin: 0 200px;">
+    <div id="search" style="text-align: right;margin: 0px 83px;margin-top: 40px;">
+        <form action="/review/search" method="get">
+            <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+            <button type="submit">검색</button>
+        </form>
+    </div>
+
+
+
+    <div id="new5-div">
+        <table>
+            <tbody>
+            <tr th:each="row : ${#numbers.sequence(0, review.size() - 1)}">
+                <td th:each="col : ${#numbers.sequence(0, 2)}" th:if="${row * 3 + col < review.size()}" class="meet-content" th:onclick="|location.href='/review/${review[row * 3 + col].reviewId}'|">
+                    <div class="review-container" style="margin: 20px 35px;border: 1px solid;padding: 16px;border: 1px solid #dddddd;border-radius: 6px;">
+                        <img th:src="${review[row * 3 + col].fileEntity.path}" alt="Review Image" class="review-image" style="width: 300px; height: 300px;"/>
+                        <div class="review-text" style="text-align: center;margin-top: 11px;">
+                            <span th:text="${review[row * 3 + col].meetEntity.meetName}"></span> | <span th:text="${review[row * 3 + col].meetEntity.sportsId.name}"></span>
+                            <div th:text="${review[row * 3 + col].title}"></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:replace="~{chatModal/chatModal}"></div>
+</body>
+<script type="text/javascript" th:src = "@{/js/notification/notification.js}"></script>
+<script type="text/javascript" th:src = "@{/js/chatModal/chatModal.js}"></script>
+</html>

@@ -1,0 +1,166 @@
+ @font-face {
+     font-family: 'SUITE-Regular';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+     font-weight: 400;
+     font-style: normal;
+ }
+ * {
+   font-family: "SUITE-Regular";
+ }
+
+
+    input {
+      width: 80%;
+      font-size: 15px;
+      border: 0;
+      border-radius: 5px;
+      outline: none;
+      padding-left: 10px;
+      background-color: rgb(233, 233, 233);
+    }
+
+    div.container{
+      display : flex;
+      flex-direction: column;
+      height : 95vh;
+      width: 96vw;
+      overflow : hidden;
+    }
+
+    div.typing{
+      display : flex;
+      flex-direction: row;
+      width: 100%;
+      height: 20%;
+    }
+
+
+    /* 스크롤바 설정*/
+    #msgArea::-webkit-scrollbar{
+        width: 10px;
+    }
+
+    /* 스크롤바 막대 설정*/
+    #msgArea::-webkit-scrollbar-thumb{
+        background-color: rgb(0,0,0);
+        /* 스크롤바 둥글게 설정    */
+        border-radius: 10px;
+    }
+
+    /* 스크롤바 뒷 배경 설정*/
+    #msgArea::-webkit-scrollbar-track{
+        background-color: rgb(255,255,255);
+    }
+
+    .msg-div{
+
+        margin: 3px 0px;
+        background-color: #d1ecf5;
+        border-radius: 5px;
+        padding: 2px 29px 2px 8px;
+        width: fit-content;
+    }
+
+   .typing {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     padding: 10px; /* 상하좌우 여백 조절 */
+     border-radius: 5px; /* 둥근 테두리를 위한 반지름 설정 */
+     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+   }
+
+   .text-div {
+     flex: 1;
+     border: 1px solid #a0a0a0;
+     border-radius: 5px;
+   }
+
+   .form-control {
+     width: 100%; /* 입력란이 부모의 크기에 맞게 확장되도록 설정 */
+     padding: 10px;
+     border: none;
+     border-radius: 5px; /* 둥근 테두리를 위한 반지름 설정 */
+   }
+
+   .btn-div {
+     margin-left: 10px; /* 입력란과 버튼 사이 여백 조절 */
+   }
+
+   .button {
+     background-color: #4CAF50;
+     color: white;
+     border: none;
+     border-radius: 5px;
+     padding: 7px 32px;
+   }
+
+   .button:hover {
+     background-color: #45a049; /* 버튼에 호버 시의 배경색 */
+   }
+
+.myMsgRow{
+  display:flex;
+  justify-content: flex-end;
+  margin-top : 2px;
+  margin-bottom : 2px;
+}
+
+.othersMsgRow{
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-start;
+    margin-top : 2px;
+    margin-bottom : 2px;
+}
+
+.myMsg {
+	position: relative;
+	background: #218aff;
+	border-radius: .4em;
+	width: fit-content;
+	margin-right:20px;
+	padding : 5px;
+	color: white;
+	margin-left: auto;
+}
+
+.myMsg:after {
+	content: '';
+	position: absolute;
+	right: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 9px solid transparent;
+	border-left-color: #218aff;
+	border-right: 0;
+	border-bottom: 0;
+	margin-top: -4.5px;
+	margin-right: -9px;
+}
+
+   .othersMsg {
+   	position: relative;
+   	width: fit-content;
+   	background: #d8d8d8;
+   	border-radius: .4em;
+   	margin-left:20px;
+   	padding : 5px;
+   }
+
+   .othersMsg:after{
+   		content: '';
+    	position: absolute;
+    	left: 0;
+    	top: 50%;
+    	right: 100%;
+    	width: 0;
+    	height: 0;
+    	border: 9px solid transparent;
+    	border-right-color: #d8d8d8;
+    	border-left: 0;
+    	border-bottom: 0;
+    	margin-top: -4.5px;
+    	margin-left: -9px;
+   }

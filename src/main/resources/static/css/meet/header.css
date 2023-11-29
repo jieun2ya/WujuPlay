@@ -1,0 +1,58 @@
+/* 전체 헤더 스타일 */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 20px; /* 상하 10px, 좌우 20px 여백 설정 */
+    background-color: #ffffff; /* 배경색을 흰색으로 설정 */
+    color: black; /* 텍스트 색상을 검은색으로 설정 (예시로 검은색을 사용하였습니다. 필요에 따라 변경 가능) */
+    margin: 20px 0px;
+}
+
+/* 로고 및 메뉴 스타일 */
+.left-section {
+    display: flex;
+    align-items: center;
+    margin-left:225px;
+}
+
+/* 로고 스타일 */
+.logo {
+    margin-right: 20px; /* 로고와 메뉴 이름 사이 여백 설정 */
+}
+
+/* 메뉴 이름 스타일 */
+.menu-name {
+    font-weight: bold; /* 메뉴 이름 글꼴을 굵게 설정 */
+    margin-right: 15px; /* 메뉴 간 여백 설정 */
+    font-size:21px;
+    color:#000000;
+}
+
+/* 오른쪽 영역 스타일 */
+.right-section {
+    display: flex;
+    align-items: center;
+    margin-right:225px;
+}
+
+/* 알림 아이콘 스타일 */
+.notification-icon {
+    margin-right: 10px; /* 알림 아이콘과 로그인 버튼 사이 여백 설정 */
+}
+
+/* 로그인 및 회원가입 버튼 스타일 */
+.login-btn, .signup-btn {
+    margin-left: 15px; /* 로그인 버튼과 회원가입 버튼 사이 여백 설정 */
+    padding: 8px 16px; /* 버튼 패딩 설정 */
+    background-color: #255fb0; /* 버튼 배경색 설정 */
+    color: white; /* 버튼 텍스트 색상 설정 */
+    border: none; /* 버튼 테두리 없애기 */
+    border-radius: 4px; /* 버튼 테두리 둥글게 설정 */
+    cursor: pointer;
+}
+
+/* 버튼에 호버 효과 추가 */
+.login-btn:hover, .signup-btn:hover {
+    background-color: #155d96;
+}

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<div class="chat-div" id = "chatMap" th:if = "${chatRoomsMap != null}" th:each="chatAndCount:${chatRoomsMap}">
+  <div class = "clickable" th:onclick="|location.href='@{/chat/chatroom/{id}(id=${chatAndCount.key.chatRoomId})}'|" style="cursor:pointer;">
+    <div th:text = "${chatAndCount.key.name}"></div>
+    <div class="circle" th:if = "${chatAndCount.value != 0}" th:text = "${chatAndCount.value}"></div>
+  </div>
+</div>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원 가입</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/auth/styles.css">
+    <script type="text/javascript" src="/js/auth/kakaoSignup.js"></script>
+</head>
+<body>
+<div th:replace="~{layout/header}"></div>
+<h1>회원 가입</h1>
+<form action ="/auth/kakao/signup"  method="post">
+        <style>
+            .form-group {
+                margin-bottom: 15px;
+            }
+            .error-message {
+                color: red;
+            }
+            .success-message {
+                color: green;
+            }
+        </style>
+
+         <input type="hidden" class="form-control" id="profileNickname" name="profileNickname" th:value="${profileNickname}" />
+         <input type="hidden" class="form-control" id="socialAuthId" name="socialAuthId" th:value="${socialAuthId}" />
+
+        <div class="form-group">
+            <label for="accountEmail">이메일:</label>
+            <input type="text" id="accountEmail" name="accountEmail" required onblur="checkEmail()">
+            <button type="button" onclick="checkEmail()">이메일 중복 확인</button>
+            <small id="emailValidationMsg" class="error-message"></small>
+        </div>
+        <div class="form-group">
+            <label for="name">이름:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div>
+            <label for="gender">성별:</label>
+            <select id="gender" name="gender">
+                <option value="M">남성</option>
+                <option value="F">여성</option>
+            </select>
+        </div>
+       <div>
+           <input type="text" id="sample5_address" name="sample5_address" placeholder="주소">
+           <input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
+           <div id="map" style="width:300px; height:300px; margin-top:10px; display:none; margin-left: auto; margin-right: auto;"></div>
+           <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+       </div>
+    <div>
+        <button type="submit">가입</button>
+    </div>
+</form>
+</body>
+</html>

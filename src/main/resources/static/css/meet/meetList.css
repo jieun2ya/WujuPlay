@@ -1,0 +1,76 @@
+@font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+	font-family: 'SUITE-Regular';
+}
+
+.search_box_wrap {
+    width: 100%; /* 검색창이 100% 너비를 차지하도록 설정 */
+}
+
+.search_box_elem {
+    display: flex;
+    flex-direction: column; /* 검색 옵션들을 세로로 나열 */
+    align-items: center;
+}
+
+/* 이하 기존 CSS 코드 */
+.align-center1 {
+    text-align: center;
+    margin-top: 10px; /* 필요한 만큼 조절 */
+}
+
+.align-center2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.suggest {
+    display: flex;
+    gap: 10px;
+}
+
+#startDate,
+#endDate {
+
+}
+
+.align-center1{
+    margin:0 auto;
+    width:800px;
+    text-align: center;
+}
+
+.align-center2{
+    margin:0 auto;
+    width:580px;
+}
+
+.meet-content {
+    width: 500px;
+    border: 0.5px solid #d1d1d1;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.meet-content:hover{
+    border:1px solid #000000;
+    cursor:pointer;
+}
+
+.btn-list1 {
+	margin-top: 10px;
+	height: 20px;
+	width: 30px;
+    background: url(/image/member.jpg) no-repeat center left;
+	border : 0px;
+	margin-left: 365px;
+}

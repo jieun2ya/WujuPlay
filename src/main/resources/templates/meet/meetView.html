@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href = "@{/css/chatModal/chatModal.css}">
+    <link rel="stylesheet" th:href = "@{/css/notification/notification.css}">
+    <link rel="stylesheet" href="/css/meet/meetView.css" />
+    <script type="text/javascript" src="/js/meet/meetView.js"></script>
+</head>
+<body>
+<div th:replace="~{layout/header}"></div>
+<input type = "hidden" id="memberId" th:value="${memberId}"/>
+
+<div style="margin: 0 auto; width:800px">
+    <div class="srv_rt">
+        <div class="iv_dot">
+            <div class="div_span"><span th:text="${meet.sportsId.name}"></span></div>
+            <div class="div_p">
+                <span th:text="${meet.meetName}"></span>
+            </div>
+        </div>
+            <div class="parent-container">
+                <div class="child-container">모임장소</div>
+                <div class="child-container2" th:if="${meet.locationId != null}" th:text="${meet.locationId.placeName}"></div>
+<!--                <div class="child-container2" th:if="${meet.locationId != null}" th:text="${meet.locationId.addressName}"></div>-->
+            </div>
+            <div class="parent-container">
+                <div class="child-container">모임시간</div>
+                <div class="child-container2" th:text="${#dates.format(meet.meetDate, 'yyyy년 MM월 dd일(E) a hh:mm')}">
+                </div>
+            </div>
+            <div class="parent-container">
+                <div class="child-container">모임소개</div>
+                <div class="child-container2" th:text="${meet.meetInfo}">
+                    </div>
+            </div>
+            <div class="parent-container">
+                <div class="child-container">모임장</div>
+                <div class="child-container2"><div th:text="${meet.leader.profileNickname}"></div>
+                    <span th:each="member : ${meetMembers}">
+                        <span th:if="${meet.leader.memberId == member.memberId}">
+                            모임을 <strong th:text="${member.openNumber}"></strong>번 열었어요 / 모임을 <strong th:text="${member.playNumber}"></strong>번 참여했어요
+                        </span>
+                    </span>
+                </div>
+            </div>
+        <div class="parent-container">
+            <div class="child-container">참여자현황</div>
+            <div class="child-container2"><span th:text="${meet.currNumber}"></span> / <span th:text="${meet.maxNumber}"></span>
+            </div>
+        </div>
+            <div>
+                <!--로그인 상태가 아닐경우-->
+                <div th:if="${#authorization.expression('not isAuthenticated()')}">
+                    <button class="common_btn_blue" type="button" th:onclick="'meetMemberAdd(0)'" th:visible="true">모임참여하기</button>
+                </div>
+                <!--로그인 되어있을경우-->
+                <div th:if="${#authorization.expression('isAuthenticated()')}">
+                    <!--해당모임에 참여하지 않은 경우 모임참여 버튼 보이게-->
+                    <div th:if="${attendYN != 'Y'}">
+                        <button class="common_btn_blue" type="button" th:onclick="'meetMemberAdd(\'' + ${meet.meetId} + '\')'" th:visible="true">모임참여하기</button>
+                    </div>
+                    <!--해당모임에 참여한 상태면 모임회원들 정보랑 모임나가기 버튼 보이게-->
+                    <div th:if="${attendYN == 'Y'}" style="margin: 15px 0px;">
+                        <div class="mm-info" style="margin: 10px 0px;">모임참여자 정보</div>
+                        <table>
+                            <tr th:each="member : ${meetMembers}" style="border: 1px solid #acacac;">
+                                <td>
+                                    <div th:if="${member != null}" th:text="${member.profileNickname}" onclick="detail()"></div>
+                                    <div class="profile" style="display:block; font-size:18px;">
+                                        <table>
+                                            <tr>
+                                                <td>성별</td>
+                                                <td> <span th:if="${member != null}" th:text="${member.gender == 'M' ? '남자' : '여자'}"></span></td>
+                                                <td>나이</td>
+                                                <td>
+                                                    <!-- 생년월일 -->
+                                                    <span th:if="${member != null}" th:with="birthday=${member.birthday}">
+                                                    <!-- Date를 LocalDate로 변환 -->
+                                                    <div th:with="localDate=${T(java.time.LocalDate).ofInstant(birthday.toInstant(), T(java.time.ZoneId).systemDefault())}">
+                                                        <!-- 현재 년도 구하기 -->
+                                                        <div th:with="currentYear=${T(java.time.LocalDate).now().getYear()}">
+                                                            <!-- 나이 계산 -->
+                                                            <div th:with="age=${currentYear - localDate.getYear()}">
+                                                                <!-- 연령대 계산 -->
+                                                                <div th:if="${age lt 10}">10대 미만</div>
+                                                                <div th:if="${age ge 10 and age lt 20}">10대</div>
+                                                                <div th:if="${age ge 20 and age lt 30}">20대</div>
+                                                                <div th:if="${age ge 30 and age lt 40}">30대</div>
+                                                                <div th:if="${age ge 40 and age lt 50}">40대</div>
+                                                                <div th:if="${age ge 50 and age lt 60}">50대</div>
+                                                                <div th:if="${age ge 60 and age lt 100}">60대 이상</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>운동경력</td>
+                                                <td><span th:if="${member != null}" th:text="${member.sportsCareer}"></span></td>
+                                                <td>선호스포츠</td>
+                                                <td><span th:if="${member != null}" th:text="${member.interestSports}"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>모임연 횟수</td>
+                                                <td><span th:if="${member != null}" th:text="${member.openNumber}"></span></td>
+                                                <td>모임참여 횟수</td>
+                                                <td><span th:if="${member != null}" th:text="${member.playNumber}"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>mbti</td>
+                                                <td><span th:if="${member != null}" th:text="${member.mbti}"></span></td>
+                                            </tr>
+
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                            <div th:if="${meet.leader.memberId != loginMemberId}" style="margin-top: 10px;">
+                                <button class="common_btn_blue" th:onclick="'meetLeave(\'' + ${meet.meetId} + '\')'">모임나가기</button>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--해당모임의 모임장일 경우 모임수정 버튼 보이게-->
+        <div th:if="${meet.leader.memberId == loginMemberId}">
+            <button class="common_btn_blue" th:onclick="'meetModify(\'' + ${meet.meetId} + '\')'">모임수정</button>
+        </div>
+    </div>
+</div>
+<div th:replace="~{chatModal/chatModal}"></div>
+</body>
+<script type="text/javascript" th:src = "@{/js/notification/notification.js}"></script>
+<script type="text/javascript" th:src = "@{/js/chatModal/chatModal.js}"></script>
+</html>

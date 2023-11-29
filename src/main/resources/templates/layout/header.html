@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>header</title>
+    <link rel="stylesheet" href="/css/meet/header.css" />
+</head>
+<body>
+<header>
+    <!-- 왼쪽 영역 -->
+    <div class="left-section">
+        <a href="/meet/main"><img alt="logo" src="/image/logo.png" height="50" class="logo"></a>
+        <a class="menu-name" href="/meet/meetList">모임 모아보기</a>
+        <a class="menu-name" href="/review">모임후기</a>
+    </div>
+
+    <!-- 오른쪽 영역 -->
+    <div class="right-section">
+        <div th:if="${#authorization.expression('isAuthenticated()')}" class="notification-icon" id = "alert">
+            <img src="/image/bell.png" alt="alert" height="50px" width="50px">
+            <div class="content" id = "content">
+                <div style="width:150px">내 '<span id = "myMeetName"></span>' 모임에 합류 신청이 왔어요! 마이페이지에서 확인해보세요.</div>
+            </div>
+        </div>
+        <button th:if="${#authorization.expression('not isAuthenticated()')}" onclick="location.href='/auth/login'" class="login-btn">로그인</button>
+        <button th:if="${#authorization.expression('not isAuthenticated()')}" onclick="location.href='/auth/signup'" class="login-btn">회원가입</button>
+        <button th:if="${#authorization.expression('isAuthenticated()')}" onclick="location.href='/mypage'" class="login-btn">마이페이지</button>
+        <button th:if="${#authorization.expression('isAuthenticated()')}" onclick="location.href='/auth/logout'" class="login-btn">로그아웃</button>
+    </div>
+</header>
+</body>
+</html>

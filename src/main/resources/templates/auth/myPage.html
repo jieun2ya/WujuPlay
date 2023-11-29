@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:fragment="headerFragment">
+
+<head>
+    <script th:src="@{/js/App.js}" defer></script>
+
+</head>
+
+<div class="header">
+    <nav class="navbar navbar-expand-lg navbar-light justify-content-between pt-3">
+        <div class = "logo ml-3">
+            <a class="logo" th:href="@{/main/}"><img class="logo" th:src="@{/images/logo.png}" alt="Logo"></a>
+        </div>
+
+        <h1>eco-reading</h1>
+
+        <div>
+            <a class="navbar-brand" th:href="@{/user/mypage/myinfor}">
+                <div id="userPoints"></div>
+                <img th:src="@{/images/bookmark.png}" alt="Points" width="30px" height="30px"></a>
+            <a class="navbar-brand" th:href="@{/main/}">
+                <img th:src="@{/images/alarm.png}" alt="Alarm" width="30px" height="30px"></a>
+
+            <!--로그인 했을 때 -->
+            <div th:if="${#authorization.expression('isAuthenticated()')}" class="dropdown" >
+                <img th:src="@{/images/user.png}" alt="Login" width="30px" height="30px" onclick="toggleDropdown('authenticatedDropdownContent')">
+                <div id="authenticatedDropdownContent" class="dropdownContent">
+                    <a href="/user/mypage/myinfor">mypage</a>
+                    <a href="/user/logout/">logout</a>
+                </div>
+            </div>
+
+            <!-- Spring Security로 인증되지 않은 경우에만 보이는 드롭다운 메뉴 -->
+            <div th:if="${#authorization.expression('not isAuthenticated()')}" class="dropdown" >
+                <img th:src="@{/images/user.png}" alt="Login" width="30px" height="30px" onclick="toggleDropdown('unauthenticatedDropdownContent')">
+                <div id="unauthenticatedDropdownContent" class="dropdownContent">
+                    <a href="/user/login">login</a>
+                </div>
+            </div>
+        </div>
+
+    </nav>
+</div>
+
+
+
+
+</html>

@@ -1,0 +1,44 @@
+@font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+	font-family: 'SUITE-Regular';
+}
+.review-container {
+    position: relative;
+    margin: 10px 62px;
+}
+
+.review-image {
+    width: 300px;
+    height: 300px;
+    object-fit: cover; /* 이미지 비율 유지하면서 크기 조절 */
+}
+
+.review-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.8); /* 배경 투명도 조절 */
+    text-align: center;
+}
+
+.meet-content {
+    border: 1px solid #ddd;
+}
+
+#search {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#new5-div {
+    display: flex;
+    justify-content: center;
+}

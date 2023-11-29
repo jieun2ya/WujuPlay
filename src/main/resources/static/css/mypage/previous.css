@@ -1,0 +1,62 @@
+ @font-face {
+     font-family: 'SUITE-Regular';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+     font-weight: 400;
+     font-style: normal;
+ }
+ * {
+   font-family: "SUITE-Regular";
+ }
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px auto; /* 상단 간격 4px, 좌우 중앙 정렬 */
+}
+
+/*
+.mypage-div {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1055px;
+}*/
+
+.left-div {
+    width: 40%;
+    margin-right: 100px; /* 오른쪽 공백 */
+
+}
+
+.right-div {
+    width: 60%;
+    min-height: 500px;
+}
+
+.flex-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-item {
+    height : 40px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 글자가 박스의 가운데 높이에 위치 */
+    background-color: #0174BE; /* 짙은 남색 */
+    color: #ffffff; /* 글씨 색은 하얀색 */
+    border-radius: 5px; /* 둥근 모서리 */
+    margin-bottom: 10px; /* 적당한 간격 */
+    padding: 10px; /* 내부 간격 */
+}
+
+.flex-item a {
+    width: 100%;
+    color: #ffffff; /* 링크 색상 하얀색 */
+    text-decoration: none; /* 링크 아래 선 제거 */
+}
+
+div#meetSelectDiv {
+    margin-bottom: 10px; /* 하단 간격 10px */
+}

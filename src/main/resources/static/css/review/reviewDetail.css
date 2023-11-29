@@ -1,0 +1,35 @@
+@font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+	font-family: 'SUITE-Regular';
+}
+/* 이미지 크기 조정 */
+.carousel-inner img {
+    width: 100%; /* 이미지를 부모 요소의 100%로 설정하여 크기 조정 */
+    height: auto; /* 가로 비율에 맞게 세로 크기 자동 조정 */
+}
+
+/* 화살표 색상 변경 */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: #000; /* 검정색으로 변경 */
+}
+
+/* 화살표 색상 변경 (hover 상태) */
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background-color: #333; /* 원하는 hover 색상으로 변경 */
+}
+
+.btn{
+color: black;
+    font-size: 21px;
+    border: 1px solid;
+    padding: 6px;
+    border-radius: 5px;
+}

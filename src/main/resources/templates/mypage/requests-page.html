@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div id="mergeTable">
+  <div th:each="request:${requests}">
+    <form action="/merge/pending" method="get">
+      <div class="rowRight">
+        <div class = "innerRow">
+          <div class= "item" id="name" th:text="${request.meetName}"></div>
+          <div class= "item" id="info" th:text="${request.meetInfo}"></div>
+          <div class="item" style="justify-content: center;">
+            <div class = "numWrapper" style="display: flex; flex-direction: row; justify-content: center;">
+              <div class = "number" th:text="${request.currNumber}"/>
+              <div class = "number">/</div>
+              <div class = "number" th:text="${request.maxNumber}"/>
+            </div>
+          </div>
+        </div>
+        <input type="hidden" name="hostMyMeetId" value = "">
+        <input type="hidden" name="requestId" th:value = "${request.meetId}">
+        <button type="submit" class = "mergebtn">승인</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+</html>

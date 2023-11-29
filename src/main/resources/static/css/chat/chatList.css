@@ -1,0 +1,53 @@
+ @font-face {
+     font-family: 'SUITE-Regular';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+     font-weight: 400;
+     font-style: normal;
+ }
+ * {
+   font-family: "SUITE-Regular";
+ }
+
+    div.chatRoom {
+    border : 1px solid black;
+    border-radius: 5px;
+    display : flex;
+    flex-direction : row;
+    }
+
+    div.container{
+      display : flex;
+      flex-direction : column;
+    }
+
+    div.clickable{
+    display: flex;
+    flex-direction : row;
+    justify-content : space-between;
+    }
+
+    .chat-div{
+    cursor: pointer;
+    border: 1px solid #dddddd;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 4px 0px;
+    }
+
+    .chat-div:hover{
+    cursor: pointer;
+    border: 1px solid #000000;
+    padding: 10px;
+    border-radius: 4px;
+    }
+
+    .circle{
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background-color: red;
+        color: white;
+        text-align: center;
+        font-size: 17px;
+        font-weight: 600;
+    }

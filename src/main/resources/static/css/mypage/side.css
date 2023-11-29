@@ -1,0 +1,40 @@
+
+.sidebar {
+    background-color: #FFF0CE; /* 배경색 */
+    width: 100%; /* 웹페이지 크기에 맞게 좌우로 확장 */
+    height: 50px; /* 높이 50px */
+}
+
+
+.sidebar ul {
+    list-style-type: none; /* 리스트 표시 제거 */
+    padding: 0; /* 패딩 제거 */
+    margin: 0; /* 마진 제거 */
+    display: flex; /* 리스트를 가로로 배치 */
+    justify-content: center; /* 리스트를 중앙에 배치 */
+    align-items: center; /* 리스트를 수직 중앙에 배치 */
+    height: 100%; /* 부모 요소의 높이를 차지 */
+}
+
+.sidebar ul ul {
+    margin: 0 60px; /* 각 메뉴는 중앙을 중심으로 적당한 위치로 떨어져 있음 */
+}
+
+.sidebar ul ul:hover {
+    background-color: #0C356A; /* 마우스를 올리면 색상 전환 */
+    border-radius: 5px; /* 라운드 5 */
+    height: 35px; /* 높이 40px */
+    display: flex; /* 중앙 정렬을 위한 flex */
+    align-items: center; /* 중앙 정렬을 위한 flex */
+    justify-content: center; /* 중앙 정렬을 위한 flex */
+    padding: 0 10px; /* 좌우 패딩 */
+}
+
+.sidebar ul ul a {
+    color: black; /* 링크 색상 */
+    text-decoration: none; /* 링크 아래 선 제거 */
+}
+
+.sidebar ul ul:hover a {
+    color: #ffffff; /* 마우스를 올리면 글씨 색상이 하얀색으로 변경 */
+}

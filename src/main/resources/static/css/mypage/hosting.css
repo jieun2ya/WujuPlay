@@ -1,0 +1,164 @@
+ @font-face {
+     font-family: 'SUITE-Regular';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+     font-weight: 400;
+     font-style: normal;
+ }
+ * {
+   font-family: "SUITE-Regular";
+ }
+
+main{
+    display: flex;
+    flex-direction: row;
+    height: 80vh;
+    width: 70%;
+    margin : 0 auto;
+    }
+
+        div.left {
+          width: 50%;
+          display: flex;
+          flex-direction: column;
+          overflow: auto;
+        }
+
+        div.right {
+          width: 50%;
+          display: flex;
+          flex-direction: column;
+        }
+
+        div.rowLeft{
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          text-align: center;
+          height: 50px;
+          width: 90%;
+          border-radius: 10px;
+          margin-top: 10px;
+          margin-left : 6%;
+          margin-right : 5%;
+          background-color: rgba(235, 152, 78, 0.8);
+        }
+
+        div.rowRight{
+          display: flex;
+          flex-direction: row;
+          justify-content: space-evenly;
+          align-items: center;
+        }
+
+        div.innerRow{
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          text-align: center;
+          height: 30px;
+          width: 70%;
+          border-radius: 10px;
+          margin-top: 10px;
+          margin-bottom: 5px;
+          background-color: rgba(235, 152, 78, 0.8);
+        }
+
+
+        .mergebtn{
+          width: 10%;
+          height: 30px;
+          background-color:#0a0a23;
+          color: #fff;
+          border:none;
+          border-radius:8px;
+          margin-top: 10px;
+          margin-bottom: 5px;
+        }
+
+        .mergebtn:hover {
+              background-color:#002ead;
+              transition: 0.7s;
+          }
+
+        div.myMeetsInfo{
+          display: flex;
+          flex-direction: row;
+          width:80%;
+          justify-content: space-evenly;
+      }
+
+        div.item{
+          justify-content: space-between;
+          align-items: center;
+          width:33%;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow:ellipsis;
+        }
+
+        div.hostingMeets {
+          display: flex;
+          flex-direction: column;
+        }
+
+        div.tableHeader {
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          text-align: center;
+          padding-left: 7%;
+          padding-right: 5%;
+          height: 40px;
+          background-color: rgba(84, 153, 199, 0.6);
+        }
+
+        div.mergeTable {
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          height: 90%;
+        }
+
+        .boxInfo{
+           display : flex;
+           justify-content : center;
+           align-items : center;
+            height: 5%;
+        }
+
+
+        .rightColumn{
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+
+        }
+
+        .myMeetInfo{
+            display: flex;
+            flex-direction: column;
+            height: 20%;
+            align-items: stretch;
+            border : 1px solid gray;
+        }
+        .meetInfo{
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+        }
+
+        .mergeRequests{
+            height: 40%;
+            overflow: auto;
+            border : 1px solid gray;
+        }
+
+        .mergeable{
+            height: 40%;
+            overflow: auto;
+            border : 1px solid gray;
+        }

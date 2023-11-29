@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<div id="mergeableMeets">
+  <div th:each="meet:${meets}">
+    <form action="/merge/suggest" method="get">
+      <div class="rowRight">
+        <div class = "innerRow">
+          <div class= "item" th:text="${meet.meetName}"></div>
+          <div class= "item" th:text="${meet.meetInfo}"></div>
+          <div class="item" style="justify-content: center;">
+            <div class = "numWrapper" style="display: flex; flex-direction: row; justify-content: center;">
+              <div class = "number" th:text="${meet.currNumber}"/>
+              <div class = "number">/</div>
+              <div class = "number" th:text="${meet.maxNumber}"/>
+            </div>
+          </div>
+        </div>
+        <input type="hidden" name="hostId" th:value = "${meet.meetId}">
+        <input type="hidden" name="enrollingMyMeetId" value = "">
+        <button type="submit" class="mergebtn">신청</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+</html>
