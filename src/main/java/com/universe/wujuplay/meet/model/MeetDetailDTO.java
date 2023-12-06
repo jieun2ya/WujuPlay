@@ -1,10 +1,10 @@
 package com.universe.wujuplay.meet.model;
 
-import com.universe.wujuplay.member.model.MemberEntity;
-import com.universe.wujuplay.sports.model.SportsEntity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 @Data

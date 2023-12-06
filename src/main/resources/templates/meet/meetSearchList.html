@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meet Search Results</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/meet/meetSearchList.js"></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <title>우주플레이(Would You Play)</title>
+    <!--Script-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/meet/meetSearchList.js"></script>
+    <!--Style-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" th:href = "@{/css/chatModal/chatModal.css}">
     <link rel="stylesheet" th:href = "@{/css/notification/notification.css}">
     <link rel="stylesheet" href="/css/meet/meetList.css" />
-
 </head>
+
 <body>
 <div th:replace="~{layout/header}"></div><input type = "hidden" id="memberId" th:value="${memberId}" />
 
@@ -80,6 +80,11 @@
 </form>
 </div>
 
+<!-- 검색된 모임 수 표시 -->
+<p th:if="${not #lists.isEmpty(list)}" class="align-center3">
+    <span th:text="${list.size()}"></span>개의 모임이 검색되었습니다.
+</p>
+
 <div th:each="meet : ${list}" class="align-center1">
     <div class="align-center2 meet-content" th:onclick="|location.href='/meet/meetDetail/${meet.meetId}'|">
         <div><span th:text="${meet.meetName}"></span> | <span th:text="${meet.sportsId.name}"></span></div>
@@ -88,6 +93,10 @@
     </div>
 </div>
 
+<!-- 검색 결과가 없을 경우 메시지 표시 -->
+<div th:if="${#lists.isEmpty(list)}" class="align-center3">
+    <p>검색된 모임이 없습니다.</p>
+</div>
 
     <div th:replace="~{chatModal/chatModal}"></div>
 </body>

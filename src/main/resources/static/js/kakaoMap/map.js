@@ -44,7 +44,6 @@ function placesSearchCB(data, status, pagination) {
         // 정상적으로 검색이 완료됐으면
         // 검색 목록과 마커를 표출합니다
         displayPlaces(data);
-        console.log("pagination" + pagination);
         // 페이지 번호를 표출합니다
         displayPagination(pagination);
 
@@ -95,8 +94,9 @@ function displayPlaces(places) {
         refinedData.push(refinedPlace);
     });
     // 정제된 데이터 확인
-    console.log(refinedData);
+    // console.log(refinedData);
 
+    // 검색된 loaction 정보 추가하기
     $.ajax({
         url : "locationAdd",
         type : "POST",
@@ -112,12 +112,15 @@ function displayPlaces(places) {
                  cnt = [];
                  cnt.push(...data);
 
+                 // 지도에 마커표시 (장소이름+모집중인 모임숫자 표시)
                  add(cnt);
              } else {
                  console.error("유효하지 않거나 빈 데이터를 받았습니다.");
              }
         }
     });
+
+    // 지도에 마커표시 (장소이름+모집중인 모임숫자 표시)
     function add(cnt){
         for ( var i=0; i<places.length; i++ ) {
             datas[i] = places[i];
@@ -144,7 +147,7 @@ function displayPlaces(places) {
                 });
 
                 itemEl.onmouseover =  function () {
-                    var updatedTitle = title + (cnt != 0  ? ' 모집모임:'+cnt : '');
+                    var updatedTitle = title + (cnt != 0  ? ' <br/>모집모임:'+cnt : '');
                     displayInfowindow(marker, updatedTitle);
                 };
 
@@ -234,7 +237,6 @@ function displayInfowindow(marker, title) {
 }
 
 
-
 var iwContent = '<div style="padding:5px;">Hello World! <br><a href="https://map.kakao.com/link/map/Hello World!,33.450701,126.570667" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/Hello World!,33.450701,126.570667" style="color:blue" target="_blank">길찾기</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
     iwPosition = new kakao.maps.LatLng(33.450701, 126.570667); //인포윈도우 표시 위치입니다
 
@@ -295,6 +297,7 @@ function meetAdd(index){
             if(data == "3"){
                 alert("모임열기는 로그인후 가능합니다.");
             }else if(data == "1"){
+                // 모임열기 form 활성화
                 const listEl = document.getElementById('placesList');
                 removeAllChildNods(listEl);
                 const placeData = datas[index];
@@ -324,8 +327,8 @@ function meetAdd(index){
 
 }
 
+// 장소 클릭시 해당 장소에 해당하는 모임list+모임열기 버튼 활성화
 function detailList(index){
-    console.log("detailLIst")
     let listElement = document.getElementById("detailList"+index);
 
     if(listElement.style.display == "none"){
@@ -342,8 +345,8 @@ function detailList(index){
                     if(data != null){
                         var jsonData = JSON.parse(data);
 
+                         // 해당장소에 모집중인 모임 리스트 추가
                          if (Array.isArray(jsonData)) {
-                            //let addHTML = '<div><a href="'+datas[index].place_url+'" target="_blank">상세보기</a></div>';
                                 let addHTML = ' <span class="add"'+(index+1)+'>' + '<button onclick="meetAdd('+index+');" class="common_btn_blue">모임열기</button>' + '</span>';
                                 for(key in jsonData){
                                             addHTML += "<div class='div-all'>"

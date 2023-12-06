@@ -2,9 +2,8 @@
 
     document.addEventListener('DOMContentLoaded', function () {
         var meetCreationForm = document.getElementById('meetCreationForm');
-        console.log("meetCreationForm", meetCreationForm);
 
-
+        // 모임 등록 눌렀을시 발생함수
         meetCreationForm.addEventListener('submit', function (event) {
             if (!meetAddCheck()) {
                 event.preventDefault(); // 폼 제출 막기

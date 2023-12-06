@@ -1,19 +1,18 @@
 package com.universe.wujuplay.meet.model;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.universe.wujuplay.member.model.MemberEntity;
 import com.universe.wujuplay.sports.model.SportsEntity;
-import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 
 @DynamicInsert
 @Getter
@@ -127,7 +126,7 @@ public class MeetEntity {
         return sportsId;
     }
 
-    public void update(String meetName, String meetInfo, Timestamp meetDate, int maxNumber, SportsEntity sportsId, int mergeYn, Timestamp lastUpdated) {
+    public void update(String meetName, String meetInfo, Timestamp meetDate, int maxNumber, SportsEntity sportsId, int mergeYn, Timestamp lastUpdated, int visible) {
         this.meetName = meetName;
         this.meetInfo = meetInfo;
         this.meetDate = meetDate;
@@ -135,6 +134,7 @@ public class MeetEntity {
         this.sportsId = sportsId;
         this.mergeYn = mergeYn;
         this.lastUpdated = lastUpdated;
+        this.visible = visible;
     }
 
 }

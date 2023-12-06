@@ -1,9 +1,5 @@
 package com.universe.wujuplay.meet.controller;
 
-import com.universe.wujuplay.meet.model.LocationDTO;
-import com.universe.wujuplay.meet.model.LocationEntity;
-import com.universe.wujuplay.meet.model.MeetDTO;
-import com.universe.wujuplay.meet.model.MeetEntity;
 import com.universe.wujuplay.meet.model.*;
 import com.universe.wujuplay.meet.service.LocationService;
 import com.universe.wujuplay.meet.service.MeetService;
@@ -42,6 +38,7 @@ public class MeetController {
     private final MessageService messageService;
     private final MemberService memberService;
 
+    // meet main (최신등록된 모임목록 5개. 스포츠종류 정보 전달해줘야함)
     @GetMapping("/main")
     public String meetMain(Model model, HttpServletRequest request){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -88,6 +85,7 @@ public class MeetController {
 
         //채팅방에 참가 메시지 출력
         messageService.enterChat(savedDTO.getMeetId(), loginMember);
+        // 참가와 동시 마지막으로 읽은 곳 표시
         messageService.setPauseWhenJoining(savedDTO.getMeetId(), loginMember);
 
 
@@ -108,34 +106,23 @@ public class MeetController {
         }
     }
 
-
-    //필터적용안할시 filter = null
-    @GetMapping("/list-meet/{filter}")
-    public String listMeet(@PathVariable SportsEntity filter, Model model){
-        model.addAttribute("searchResult",meetService.listMeet(filter));
-        return "meet/listMeet";
-    }
-
     // 해당 장소에 해당하는 meet(모임)list 가져오기
     @PostMapping(value="/listDetail", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<MeetDTO>> listDetail(@RequestBody LocationDTO request){
         System.out.println("locationId"+request.getLocationId());
         LocationEntity entity = LocationDTO.toEntity(request);
 
-//        for (LocationDTO refinedPlace : request) {
-//            System.out.println(refinedPlace); // 데이터 확인용
-//        }
         try {
             List<MeetDTO> meetList = meetService.findByLocationId(request);
-            System.out.println("11111");
+            System.out.println("data send success");
             return ResponseEntity.ok(meetList);
         } catch (Exception e) {
-            System.out.println("22222");
+            System.out.println("data send error");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
-    // meet 상세정보 가져오기, 해당 모임 멤버 정보들까쥐~
+    // meet 상세정보+해당 모임 멤버 정보 가져오기
     @GetMapping("/meetDetail/{meetId}")
     public String meetDetail(@PathVariable long meetId, HttpServletRequest request, Model model){
         System.out.println("meetDetail");
@@ -155,30 +142,27 @@ public class MeetController {
         model.addAttribute("attendYN",(String)map.get("attendYN"));
         model.addAttribute("loginMemberId",loginMemberId);
         System.out.println(map.get("meetMembers"));
-        //System.out.println(((MeetDTO) map.get("meet")).getLeader().getMemberId());
 
         return "meet/meetView";
     }
 
-    // 해당 모임에 참여되어있는지 확인
+    // memberDetail 등록되어있는지 check
     @ResponseBody
     @GetMapping("checkMemberDetail")
     public String checkMemberDetail(HttpServletRequest request, Model model){
         Long loginMemberId = memberService.getMemberIdFromAccessTokenCookie(request);
         model.addAttribute("memberId", loginMemberId);
-        System.out.println("loginId" + loginMemberId);
 
         if (loginMemberId == null) {
-            System.out.println("dddd");
+            // 로그인 안했을시
             return "3";
-        }else{
-            System.out.println("Ddd");
         }
 
-
         if(meetService.checkMemberDetail(loginMemberId)){
+            // memberDetail 등록된 상태
             return "1";
         }else {
+            // memberDetail 미등록 상태
             return "0";
         }
     }
@@ -209,12 +193,11 @@ public class MeetController {
         messageService.leaveChat(meetId, loginMember);
     }
 
-    // mypage/hosting 에서 ajax통신에 필요해용
+    // mypage/hosting 에서 include된 mypage/info-page의 myMeetInfo에 비동기통신으로 들어갈 모임정보
     @GetMapping("/info")
     public String meetInfos (@RequestParam(name = "hostId") long hostId, Model model){
         model.addAttribute("info", MeetEntity.toDTO(meetService.findById(hostId)));
         return "mypage/info-page";
-//        return MeetEntity.toDTO(meetService.findById(hostId));
     }
 
 
@@ -242,11 +225,11 @@ public class MeetController {
         List<SportsEntity> sportsData = sportService.getAllSports();
         model.addAttribute("sportsData", sportsData);
         model.addAttribute("searchDTO", new SearchDTO());
-        //System.out.println("adress"+list.getContent().get(1).getLocationId().getPlaceName());
 
         return "meet/meetList";
     }
 
+    // meetList 검색해서 가져오기
     @PostMapping("/search")
     public String searchMeetList(@ModelAttribute("searchDTO") SearchDTO searchDTO, Model model,HttpServletRequest request) {
         Long id = memberService.getMemberIdFromAccessTokenCookie(request);
@@ -256,9 +239,7 @@ public class MeetController {
         System.out.println("MeetEntity List:");
         list.forEach(meetEntity -> System.out.println(meetEntity));
 
-
         model.addAttribute("list", list);
-
 
         List<SportsEntity> sportsData = sportService.getAllSports();
         model.addAttribute("sportsData", sportsData);
@@ -292,6 +273,7 @@ public class MeetController {
         return meetDetailDTO;
     }
 
+    // 모임수정페이지
     @GetMapping("/meetUpdate/{meetId}")
     public String  meetUpdate(@PathVariable long meetId, Model model,HttpServletRequest request){
         Long id = memberService.getMemberIdFromAccessTokenCookie(request);
@@ -310,15 +292,13 @@ public class MeetController {
         return "meet/meetUpdate";
     }
 
+    // 모임수정
     @PostMapping("/meetUpdate")
     public String meetUpdate(@ModelAttribute("meet") MeetDTO meetDTO, HttpServletRequest request, Model model){
         Long id = memberService.getMemberIdFromAccessTokenCookie(request);
-        System.out.println("updateId 내놔"+id);
+        System.out.println(meetDTO);
 
         meetDTO.setMeetDate(meetDTO.getMeetDate().replaceAll("T", " ")+":00");
-        System.out.println("meetUpdate");
-        System.out.println("meetID"+meetDTO.getMeetId());
-        System.out.println();
         meetService.updateMeet(meetDTO.getMeetId(),MeetDTO.toEntity(meetDTO));
         return "redirect:/meet/meetDetail/"+ meetDTO.getMeetId();
     }

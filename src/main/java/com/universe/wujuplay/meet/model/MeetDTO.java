@@ -1,19 +1,10 @@
 package com.universe.wujuplay.meet.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.universe.wujuplay.member.model.MemberEntity;
-import com.universe.wujuplay.review.model.FileEntity;
-import com.universe.wujuplay.review.model.ReviewDTO;
-import com.universe.wujuplay.review.model.ReviewEntity;
 import com.universe.wujuplay.sports.model.SportsEntity;
 import lombok.*;
 
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 @Data
 @Setter

@@ -2,18 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <title>우주플레이(Would You Play)</title>
+    <!--Script-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/meet/meetView.js"></script>
+    <!--Style-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" th:href = "@{/css/chatModal/chatModal.css}">
     <link rel="stylesheet" th:href = "@{/css/notification/notification.css}">
     <link rel="stylesheet" href="/css/meet/meetView.css" />
-    <script type="text/javascript" src="/js/meet/meetView.js"></script>
 </head>
+
 <body>
 <div th:replace="~{layout/header}"></div>
 <input type = "hidden" id="memberId" th:value="${memberId}"/>
@@ -58,13 +60,13 @@
         </div>
             <div>
                 <!--로그인 상태가 아닐경우-->
-                <div th:if="${#authorization.expression('not isAuthenticated()')}">
+                <div th:if="${#authorization.expression('not isAuthenticated()') and meet.active != 0}">
                     <button class="common_btn_blue" type="button" th:onclick="'meetMemberAdd(0)'" th:visible="true">모임참여하기</button>
                 </div>
                 <!--로그인 되어있을경우-->
                 <div th:if="${#authorization.expression('isAuthenticated()')}">
                     <!--해당모임에 참여하지 않은 경우 모임참여 버튼 보이게-->
-                    <div th:if="${attendYN != 'Y'}">
+                    <div th:if="${attendYN != 'Y' and meet.active != 0}">
                         <button class="common_btn_blue" type="button" th:onclick="'meetMemberAdd(\'' + ${meet.meetId} + '\')'" th:visible="true">모임참여하기</button>
                     </div>
                     <!--해당모임에 참여한 상태면 모임회원들 정보랑 모임나가기 버튼 보이게-->
@@ -125,14 +127,14 @@
                                 </td>
                             </tr>
                         </table>
-                            <div th:if="${meet.leader.memberId != loginMemberId}" style="margin-top: 10px;">
+                            <div th:if="${meet.leader.memberId != loginMemberId and meet.active != 0}" style="margin-top: 10px;">
                                 <button class="common_btn_blue" th:onclick="'meetLeave(\'' + ${meet.meetId} + '\')'">모임나가기</button>
                             </div>
                             </div>
                         </div>
                     </div>
                     <!--해당모임의 모임장일 경우 모임수정 버튼 보이게-->
-        <div th:if="${meet.leader.memberId == loginMemberId}">
+        <div th:if="${meet.leader.memberId == loginMemberId and meet.active != 0}">
             <button class="common_btn_blue" th:onclick="'meetModify(\'' + ${meet.meetId} + '\')'">모임수정</button>
         </div>
     </div>

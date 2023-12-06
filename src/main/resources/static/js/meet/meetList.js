@@ -26,11 +26,7 @@ function meetDetail(meetId){
             }
 
             // 페이지가 로드될 때 실행되는 코드
-                hideMeetDetails(); // 페이지 로드 시 실행
-
-                // 다른 이벤트 또는 동작에 따라 meetDetail 요소를 숨기려면 해당 이벤트에 대한 처리를 추가할 수 있습니다.
-                // 예를 들어, 버튼을 클릭할 때 실행되는 함수 등...
-
+            hideMeetDetails();
 
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -39,7 +35,7 @@ function meetDetail(meetId){
     });
 }
 
-
+// 장소 meetdetail 눌러놓은거 있을시 전부 숨기기
 function hideMeetDetails() {
     // id가 "meetDetail_"로 시작하는 모든 요소를 선택
     var meetDetailElements = document.querySelectorAll('[id^="meetDetail_"]');
@@ -72,5 +68,4 @@ function searchMeetList() {
     var startDate = formatDate(new Date(document.getElementById("startDate").value));
     var endDate = formatDate(new Date(document.getElementById("endDate").value));
 
-    // 나머지 코드...
 }

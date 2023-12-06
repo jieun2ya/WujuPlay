@@ -7,7 +7,9 @@ import com.universe.wujuplay.meet.repository.MeetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -15,6 +17,7 @@ public class LocationService {
     private final LocationRepository locationRepository;
     private final MeetRepository meetRepository;
 
+    // 검색된 장소목록 정보 location Table에 저장하기
     public List<Integer> saveLocations(List<LocationDTO> locationDTOList) {
         List<Integer> countList = new ArrayList<>();
         for (LocationDTO locationDTO : locationDTOList) {

@@ -2,8 +2,6 @@ package com.universe.wujuplay.meet.model;
 
 import lombok.*;
 
-import java.sql.Timestamp;
-
 @Setter
 @Getter
 @Builder

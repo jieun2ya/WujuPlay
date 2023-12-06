@@ -12,22 +12,16 @@ import com.universe.wujuplay.member.model.MemberResponse;
 import com.universe.wujuplay.member.repository.MemberDetailRepository;
 import com.universe.wujuplay.member.repository.MemberRepository;
 import com.universe.wujuplay.mypage.model.ResponseMeetDTO;
-
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.*;
-
 import com.universe.wujuplay.review.model.ReviewEntity;
 import com.universe.wujuplay.review.repository.ReviewRepository;
-import com.universe.wujuplay.sports.model.SportsEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.*;
 
 
 @RequiredArgsConstructor
@@ -57,7 +51,7 @@ public class MeetService {
         return MeetEntity.toDTO(entity);
     }
 
-    // mypage의 모든 내 모임
+    // mypage의 전체 내 모임
     public List<MeetDTO> myMeet(MemberEntity memberEntity) {
 
         List<MeetEntity> meetEntityList = meetMembersRepository.findActiveMeetEntityByMemberId(memberEntity.getMemberId());
@@ -69,6 +63,7 @@ public class MeetService {
         return meetDTOList;
     }
 
+    // mypage의 내가 참여한 모임
     public List<MeetDTO> myEnrolledMeet(MemberEntity memberEntity) {
 
         List<MeetEntity> meetEntityList = meetMembersRepository.findMeetIdsByMemberIdNotLeader(memberEntity.getMemberId());
@@ -80,39 +75,14 @@ public class MeetService {
         return meetDTOList;
     }
 
-
-    public List<MeetDTO> listMeet(SportsEntity filter) {
-        if (filter == null){
-            return meetRepository.findAllByActiveAndVisibleOrderByMeetDate(1, 1)
-                .get()
-                .stream()
-                .map(meetEntity -> MeetEntity.toDTO(meetEntity))
-                .toList();
-        }
-        return meetRepository.findAllBySportsIdAndActiveAndVisibleOrderByMeetDate(filter.getSportsId(), 1, 1)
-            .get()
-            .stream()
-            .map(meetEntity -> MeetEntity.toDTO(meetEntity))
-            .toList();
-    }
-
     public List<MeetDTO> hostingMeets(MemberResponse memberResponse){
         MemberEntity memberSignedIn = MemberResponse.toEntity(memberResponse);
         return meetRepository.findByLeaderAndActiveOrderByMeetDate(memberSignedIn, 1)
             .get()
             .stream()
-            .map(meetEntity -> MeetEntity.toDTO(meetEntity))
+            .map(MeetEntity::toDTO)
             .toList();
     }
-
-
-//    //memberService로 옮길수도?
-//    public List<MemberEntity> getMeetMembers(long meetId){
-//        Optional<List<MemberEntity>> members = meetMembersRepository.findByMeetId(meetId);
-//        // Query = select * from member m join meet_members mm on m.member_id = mm.member_id where mm.meet_id = :meetId;
-//    }
-
-
 
 //     mypage의 완료된 내 모임
     public List<ResponseMeetDTO> previousMeet(Long memberId) {
@@ -147,12 +117,7 @@ public class MeetService {
         return responseMeetDTOList;
     }
 
-    // 내 선호 운동 종류
-//    public List<SportsEntity> mySports(Long memberId) {
-//        List<SportsEntity> sportsEntityList = meetMembersRepository.findSportsEntitiesByMemberId(memberId);
-//        return sportsEntityList;
-//    }
-
+    // 전달받은 meetId에 해당 하는 모임정보 가져오기
     public MeetEntity findById(Long meetId) {
         MeetEntity meetEntity = meetRepository.findById(meetId)
                 .orElseThrow(() -> new IllegalArgumentException("not found : " + meetId));
@@ -161,8 +126,9 @@ public class MeetService {
     }
 
 
+    // 전달받은 locationId에 해당하는 모임정보 리스트 가져오기
     public List<MeetDTO> findByLocationId(LocationDTO locationDTO) {
-        //System.out.println("service locationId ::" + locationDTO.getLocationId());
+
         Optional<List<MeetEntity>> list = meetRepository.findByLocationIdAndActiveAndVisibleOrderByMeetDate(LocationDTO.toEntity(locationDTO),1,1);
 
         return list.get()
@@ -171,12 +137,11 @@ public class MeetService {
                     .toList();
     }
 
+    // 전달받은 memberId memberDetail 등록되어 있는지 확인
     public boolean checkMemberDetail(Long memberId) {
         Optional<MemberDetailEntity> memberDetail = memberDetailRepository.findByMemberEntity_MemberId(memberId);
         if (memberDetail.isPresent()) {
             //값이 있는경우
-            MemberDetailEntity memberEntity = memberDetail.get();
-            //System.out.println(memberEntity.getMemberEntity().getMemberId());
             return true;
         } else {
             //값이 없는경우
@@ -194,7 +159,7 @@ public class MeetService {
             Map<String,Object> map = new HashMap<>();
             maps.put("meet",meetEntity.get());
         }
-        //해당모임에 참여한 멤버정보 찾아오자
+        // 해당모임에 참여한 멤버정보 찾아오자
         List<MeetMembersEntity> mmEntity = meetMembersRepository.findByMeetMeetId(meetId);
         List<MeetMembersDTO> mmList = new ArrayList<>();
         System.out.println("size:"+mmEntity.size());
@@ -220,6 +185,10 @@ public class MeetService {
     public void meetMemberAdd(long meetId, MemberEntity loginMember) {
         Optional<MeetEntity> entity = meetRepository.findById(meetId);
         MeetMembersEntity mmEntity = new MeetMembersEntity(entity.get(),loginMember);
+        // 모임 visible 상태 변경
+        if(entity.isPresent() && (entity.get().getMaxNumber() - entity.get().getCurrNumber() == 1)){
+            meetRepository.updateVisible(meetId,0);
+        }
 
         // meetMembers table 값추가
         meetMembersRepository.save(mmEntity);
@@ -231,6 +200,11 @@ public class MeetService {
     
     // 모임나가기
     public void meetMemberDelete(long meetId, Long memberId) {
+        Optional<MeetEntity> meetEntity = meetRepository.findById(meetId);
+        // 모임 visible 상태 변경
+        if(meetEntity.get().getVisible() == 0){
+            meetRepository.updateVisible(meetId,1);
+        }
         // meetMember에서 삭제
         meetMembersRepository.deleteByMeetIdAndMemberId(meetId, memberId);
         // 모임 참여자수 감소
@@ -239,14 +213,26 @@ public class MeetService {
         memberDetailRepository.decrementPlayNumber(memberId);
     }
 
+    // 페이징 처리하여 전체 meet list 가져오기
     public Page<MeetEntity> meetList(Pageable pageable) {
         return  meetRepository.findByActiveAndVisibleOrderByMeetId(pageable);
     }
 
+    // meet 내용 수정
     public void updateMeet(Long meetId, MeetEntity updatedMeet) {
         // 기존 모임 엔티티를 가져옴
         MeetEntity existingMeet = meetRepository.findById(meetId).orElse(null);
         System.out.println("기존 모임 엔티티를 가져옴"+existingMeet.getMeetId());
+
+        int visible = existingMeet.getVisible();
+        // 현재인원이  변경할 모집인원과 동일할시 visible 비공개로 변경 값 0으로
+        if(updatedMeet.getMaxNumber() == existingMeet.getCurrNumber()){
+            visible = 0;
+        }
+        // 현재 visible 값이 비공개(0)인데 현재인원이 변경할 모집인원과 동일하지 않을시 공개(1)로 값변경
+        if(visible == 0 && updatedMeet.getMaxNumber() > existingMeet.getCurrNumber()){
+            visible = 1;
+        }
 
         if (existingMeet != null) {
             existingMeet.update(updatedMeet.getMeetName()
@@ -255,18 +241,26 @@ public class MeetService {
                     ,updatedMeet.getMaxNumber()
                     ,updatedMeet.getSportsId()
                     ,updatedMeet.getMergeYn()
-                    ,new Timestamp(System.currentTimeMillis()));
+                    ,new Timestamp(System.currentTimeMillis())
+                    ,visible);
             meetRepository.save(existingMeet);
         }
     }
 
     // 모임모아보기 검색
     public List<MeetEntity> searchMeetList(SearchDTO searchDTO) {
-        // 현재 날짜 기준으로 일주일 전 날짜 계산
-        Timestamp aWeekAgo = new Timestamp(System.currentTimeMillis() - (7 * 24 * 60 * 60 * 1000));
+        // 현재 날짜 및 시간을 Timestamp로 변환
+        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+        LocalDateTime currentDateTime = currentTimestamp.toLocalDateTime();
 
-        // 현재 날짜 기준으로 한 달 전 날짜 계산
-        Timestamp aMonthAgo = new Timestamp(System.currentTimeMillis() - (30 * 24 * 60 * 60 * 1000));
+        // 일주일 후의 날짜 계산
+        LocalDateTime aWeekLaterDateTime = currentDateTime.plusWeeks(1);
+        Timestamp aWeekAgo = Timestamp.valueOf(aWeekLaterDateTime);
+
+        // 한 달 후의 날짜 계산
+        LocalDateTime aMonthLaterDateTime = currentDateTime.plusMonths(1);
+        Timestamp aMonthAgo = Timestamp.valueOf(aMonthLaterDateTime);
+
         Timestamp startDate = new Timestamp(System.currentTimeMillis());
         Timestamp endDate = new Timestamp(System.currentTimeMillis());
 
@@ -289,6 +283,8 @@ public class MeetService {
         // 예시로 출력
         System.out.println("원래 endDate: " + endDate);
         System.out.println("endDate에 1일 추가: " + endDatePlusOneDay);
+        System.out.println("1개월::" + aMonthAgo);
+        System.out.println("1주::" + aWeekAgo);
 
 
         return meetRepository.searchMeets(
@@ -299,7 +295,8 @@ public class MeetService {
                 Long.parseLong(searchDTO.getSportsId()),
                 searchDTO.getKeyword(),
                 aWeekAgo,
-                aMonthAgo
+                aMonthAgo,
+                currentTimestamp
         );
     }
 
