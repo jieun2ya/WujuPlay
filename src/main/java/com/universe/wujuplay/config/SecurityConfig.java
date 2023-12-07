@@ -75,7 +75,9 @@ public class SecurityConfig {
                         .loginPage("/auth/login")
                 )
                 .headers(headers -> headers.frameOptions().disable()) // H2 콘솔은 iframe을 사용하기 때문에 이를 허용해야 함
+                // beforeFilter가 실행되기 이전에 Filter을 먼저 실행시키도록 설정하는 메소드
                 .addFilterBefore(new TokenAuthenticationFilter(tokenProvider, memberRepository), UsernamePasswordAuthenticationFilter.class)
+                //.addFilterBefore(new ExceptionHandlerFilter(), JwtTokenFilter.class)
                 .build();
     }
 
