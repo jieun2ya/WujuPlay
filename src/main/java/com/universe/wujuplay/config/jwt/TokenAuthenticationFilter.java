@@ -2,6 +2,9 @@ package com.universe.wujuplay.config.jwt;
 
 import com.universe.wujuplay.member.model.MemberEntity;
 import com.universe.wujuplay.member.repository.MemberRepository;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -17,6 +20,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.SignatureException;
 import java.util.Optional;
 
 @Slf4j
@@ -30,11 +34,27 @@ public class TokenAuthenticationFilter extends GenericFilterBean {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
+        // 1. JWT 토큰 추출
         String accessToken = resolveToken(httpRequest, "accessToken");
 
-        if (isTokenValid(accessToken)) {
-            processValidAccessToken(accessToken, httpRequest);
-            ;
+        // 2. 토큰 유효성 검사
+        try {
+            if (isTokenValid(accessToken)) {
+                processValidAccessToken(accessToken, httpRequest);
+            }
+            // 에러가 발생했을 때, request에 attribute를 세팅하고 RestAuthenticationEntryPoint로 request를 넘겨준다.
+        } catch (MalformedJwtException e) {
+            log.info("유효하지 않은 구성의 JWT 토큰입니다.");
+            request.setAttribute("exception", e.getMessage());
+        } catch (ExpiredJwtException e) {
+            log.info("만료된 JWT 토큰입니다.");
+            request.setAttribute("exception", e.getMessage());
+        } catch (UnsupportedJwtException e) {
+            log.info("지원되지 않는 형식이나 구성의 JWT 토큰입니다.");
+            request.setAttribute("exception", e.getMessage());
+        } catch (IllegalArgumentException e) {
+            log.info(e.toString().split(":")[1].trim());
+            request.setAttribute("exception", e.getMessage());
         }
         chain.doFilter(request, response);
     }
